@@ -1,0 +1,24 @@
+version: '2'
+services:
+  bud-e-back:
+    build: 
+      context: .
+      dockerfile : dockerfile
+    container_name: bud-e-back
+    ports:
+    - 8000:8080
+    links:
+    - mongodb
+    depends_on:
+    - mongodb
+    stdin_open: true
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - ./volumes/db:/data/db
+    ports:    
+      - 27017:27017
