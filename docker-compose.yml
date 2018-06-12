@@ -6,7 +6,7 @@ services:
       dockerfile : dockerfile
     container_name: bud-e-back
     ports:
-    - 8000:8080
+    - 5000:5000
     links:
     - mongodb
     depends_on:

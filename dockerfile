@@ -1,6 +1,8 @@
-FROM node:8
+# Use an official Python runtime as a parent image
+FROM python:3.5
 
-RUN apt-get install git
+RUN apt-get update -y
+RUN apt-get install -y git
 
 # Setup for ssh onto github
 RUN mkdir -p /root/.ssh
@@ -9,11 +11,12 @@ RUN chmod 700 /root/.ssh/id_rsa
 RUN echo "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
 
 # Install my private repo 
-RUN git clone https://github.com/insset-bud-e/bud-e-back.git
+RUN git clone https://github.com/insset-bud-e/bud-e-server.git
 
-# Install app dependencies and bypass https for npm
-# RUN npm config set strict-ssl false
-RUN cd /bud-e-back; npm install --production
+# Install 
+RUN cd /bud-e-server; pip install --trusted-host pypi.python.org -r requirement.txt
+# RUN pip install --trusted-host pypi.python.org config
 
+WORKDIR /bud-e-server
 EXPOSE  8080
-CMD ["node", "/bud-e-back/app.js"]
+CMD ["python", "./run.py"]
